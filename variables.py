@@ -37,3 +37,15 @@ sheetNum = 0
 timer = 0
 localFlashTimer = 0
 menuFlash = False
+
+def moveUp():
+    yPos += 2
+
+def moveDown():
+    yPos -= 2
+
+def moveRight():
+    xPos += 2
+
+def moveLeft():
+    xPos -= 2
