@@ -2,7 +2,8 @@ import pygame
 
 # Images #
 iconImage = pygame.image.load('images/icon.png')
-idleImage = pygame.image.load('images/character/Idle.png')
+idleImage = pygame.image.load('images/character/Idle3.png')
+runImage = pygame.image.load('images/character/Walk.png')
 
 charImage = idleImage
 # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -27,9 +28,14 @@ mouse = pygame.mouse.get_pos() # track mouse X and Y position
 mouseX = mouse[0]
 mouseY = mouse[1]
 
-playerRect = (32, 32)
+playerRect = (128, 128)
 xPos = 100
 yPos = 100
+
+goingUp = False
+goingDown = False
+goingRight = False
+goingLeft = False
 
 animateNum = 0
 sheetNum = 0
@@ -37,15 +43,3 @@ sheetNum = 0
 timer = 0
 localFlashTimer = 0
 menuFlash = False
-
-def moveUp():
-    yPos += 2
-
-def moveDown():
-    yPos -= 2
-
-def moveRight():
-    xPos += 2
-
-def moveLeft():
-    xPos -= 2
