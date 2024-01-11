@@ -3,7 +3,7 @@ import os
 from pygame.locals import*
 
 import menu
-import floor1
+import game
 import variables
 
 def main():
@@ -56,15 +56,15 @@ def main():
             elif ev.key == pygame.K_d:
                 variables.goingRight = False; variables.animateNum = 0
             elif ev.key == pygame.K_a:
-                variables.goingLeft = False; variables.animateNum = 0
+                variables.goingLeft = False; 
             
         if variables.gameState == "menu": # menu state
             menu.menu()
             if ev.type == pygame.MOUSEBUTTONUP:
-                variables.gameState = "floor1"
+                variables.gameState = "game"
         pygame.display.flip()
-        if variables.gameState == "floor1":
-            floor1.floor1()
+        if variables.gameState == "game":
+            game.game()
             variables.screen.blit(variables.charImage, (variables.screenX/2 - 96, variables.screenY/2 - 96), (variables.animateNum, variables.sheetNum, 128, 128)) # 32 is the sprite size
             if(variables.timer % 100 == 0):
                 if((variables.goingUp == False) and (variables.goingDown == False) and (variables.goingRight == False) and (variables.goingLeft == False)):
