@@ -2,7 +2,7 @@ import pygame
 
 # Images #
 iconImage = pygame.image.load('images/icon.png')
-idleImage = pygame.image.load('images/character/Idle3.png')
+idleImage = pygame.image.load('images/character/Idle.png')
 runImage = pygame.image.load('images/character/Walk.png')
 
 charImage = idleImage

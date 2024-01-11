@@ -6,18 +6,6 @@ import menu
 import floor1
 import variables
 
-def moveUp():
-    variables.yPos -= 2
-
-def moveDown():
-    variables.yPos += 2
-
-def moveRight():
-    variables.xPos += 2
-
-def moveLeft():
-    variables.xPos -= 2
-
 def main():
     ### MAIN GAME LOOP ###
     while True:
@@ -32,17 +20,22 @@ def main():
         if(variables.goingUp == True):
             variables.yPos -= 0.4
             variables.charImage = variables.runImage
+            variables.sheetNum = 128
         elif(variables.goingDown == True):
             variables.yPos += 0.4
             variables.charImage = variables.runImage
+            variables.sheetNum = 0
         elif(variables.goingRight == True):
             variables.xPos += 0.4
             variables.charImage = variables.runImage
+            variables.sheetNum = 256
         elif(variables.goingLeft == True):
             variables.xPos -= 0.4
             variables.charImage = variables.runImage
+            variables.sheetNum = 384
         else:
             variables.charImage = variables.idleImage
+            variables.sheetNum = 0
 
         if ev.type == pygame.QUIT:  # Window close button clicked?
             break                   #   ... leave game loop
@@ -57,13 +50,13 @@ def main():
                 variables.goingLeft = True
         if ev.type == pygame.KEYUP:
             if ev.key == pygame.K_w:
-                variables.goingUp = False
-            elif ev.key == pygame.K_s:
-                variables.goingDown = False
+                variables.goingUp = False; variables.animateNum = 0
+            elif ev.key == pygame.K_s: 
+                variables.goingDown = False; variables.animateNum = 0
             elif ev.key == pygame.K_d:
-                variables.goingRight = False
+                variables.goingRight = False; variables.animateNum = 0
             elif ev.key == pygame.K_a:
-                variables.goingLeft = False
+                variables.goingLeft = False; variables.animateNum = 0
             
         if variables.gameState == "menu": # menu state
             menu.menu()
@@ -73,19 +66,19 @@ def main():
         if variables.gameState == "floor1":
             floor1.floor1()
             variables.screen.blit(variables.charImage, (variables.screenX/2 - 96, variables.screenY/2 - 96), (variables.animateNum, variables.sheetNum, 128, 128)) # 32 is the sprite size
-            if(variables.timer % 300 == 0):
+            if(variables.timer % 100 == 0):
                 if((variables.goingUp == False) and (variables.goingDown == False) and (variables.goingRight == False) and (variables.goingLeft == False)):
                     if(variables.animateNum == 0):
                         variables.animateNum = 128
                     else:
                         variables.animateNum = 0
-                elif(variables.goingUp == True):
+                elif((variables.goingUp == True) or (variables.goingDown == True) or (variables.goingRight == True) or (variables.goingLeft == True)):
                     if(variables.animateNum == 0):
-                        variables.animateNum = 32
-                    elif(variables.animateNum == 32):
-                        variables.animateNum = 64
-                    elif(variables.animateNum == 64):
-                        variables.animateNum = 96
+                        variables.animateNum = 128
+                    elif(variables.animateNum == 128):
+                        variables.animateNum = 256
+                    elif(variables.animateNum == 256):
+                        variables.animateNum = 384
                     else:
                         variables.animateNum = 0
         variables.timer+= 1 # tick the timer
