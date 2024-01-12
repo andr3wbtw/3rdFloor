@@ -14,16 +14,22 @@ class Tree(pygame.sprite.Sprite):
 
         self.image = pygame.image.load(filename).convert_alpha()
         self.rect = self.image.get_rect()
-        self.rect.x = dx
-        self.rect.y = dy
+        self.awayX = dx
+        self.awayY = dy
+        self.rect.x = variables.enviroPosX+self.awayX
+        self.rect.y = variables.enviroPosY+self.awayY
 
     def draw(self, screen):
         screen.blit(self.image, self.rect)
     def update(self):
-        self.rect.x = variables.enviroPosX+50
-        self.rect.y = variables.enviroPosY+50
+        self.rect.x = variables.enviroPosX+self.awayX
+        self.rect.y = variables.enviroPosY+self.awayY
 
-trees.append(Tree(variables.enviroPosX+50, variables.enviroPosY+50, 'images/Tree.png'))
+def generateTrees():
+    for i in range(0, 100, 1):
+        randX = random.randint(0,3000)
+        randY = random.randint(0,2000)
+        trees.append(Tree(randX, randY, 'images/Tree.png'))
 
 def main():
     ### MAIN GAME LOOP ###
@@ -37,19 +43,19 @@ def main():
         variables.mouseY = variables.mouse[1]
 
         if(variables.goingUp == True):
-            variables.enviroPosY += 0.4
+            variables.enviroPosY += 0.6
             variables.charImage = variables.runImage
             variables.sheetNum = 128
         elif(variables.goingDown == True):
-            variables.enviroPosY -= 0.4
+            variables.enviroPosY -= 0.6
             variables.charImage = variables.runImage
             variables.sheetNum = 0
         elif(variables.goingRight == True):
-            variables.enviroPosX -= 0.4
+            variables.enviroPosX -= 0.6
             variables.charImage = variables.runImage
             variables.sheetNum = 256
         elif(variables.goingLeft == True):
-            variables.enviroPosX += 0.4
+            variables.enviroPosX += 0.6
             variables.charImage = variables.runImage
             variables.sheetNum = 384
         else:
@@ -81,14 +87,15 @@ def main():
             menu.menu()
             if ev.type == pygame.MOUSEBUTTONUP:
                 variables.gameState = "game"
+                generateTrees()
         pygame.display.flip()
         if variables.gameState == "game":
             variables.screen.fill((0, 0, 0))
-            ground = pygame.draw.rect(variables.screen, (35, 99, 52), pygame.Rect(variables.enviroPosX, variables.enviroPosY, 8000, 3125))
+            ground = pygame.draw.rect(variables.screen, (35, 99, 52), pygame.Rect(variables.enviroPosX, variables.enviroPosY, 3000, 2000))
+            variables.screen.blit(variables.charImage, (variables.screenX/2 - 96, variables.screenY/2 - 96), (variables.animateNum, variables.sheetNum, 128, 128)) # 32 is the sprite size
             for Tree in trees:
                 Tree.draw(variables.screen)
                 Tree.update()
-            variables.screen.blit(variables.charImage, (variables.screenX/2 - 96, variables.screenY/2 - 96), (variables.animateNum, variables.sheetNum, 128, 128)) # 32 is the sprite size
             if(variables.timer % 100 == 0):
                 if((variables.goingUp == False) and (variables.goingDown == False) and (variables.goingRight == False) and (variables.goingLeft == False)):
                     if(variables.animateNum == 0):
