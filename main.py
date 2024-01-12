@@ -1,10 +1,29 @@
 import pygame
 import os
+import random
 from pygame.locals import*
 
 import menu
-import game
 import variables
+
+trees = []
+
+class Tree(pygame.sprite.Sprite):
+    def __init__(self, dx, dy, filename):
+        pygame.sprite.Sprite.__init__(self)
+
+        self.image = pygame.image.load(filename).convert_alpha()
+        self.rect = self.image.get_rect()
+        self.rect.x = dx
+        self.rect.y = dy
+
+    def draw(self, screen):
+        screen.blit(self.image, self.rect)
+    def update(self):
+        self.rect.x = variables.enviroPosX+50
+        self.rect.y = variables.enviroPosY+50
+
+trees.append(Tree(variables.enviroPosX+50, variables.enviroPosY+50, 'images/Tree.png'))
 
 def main():
     ### MAIN GAME LOOP ###
@@ -18,19 +37,19 @@ def main():
         variables.mouseY = variables.mouse[1]
 
         if(variables.goingUp == True):
-            variables.yPos -= 0.4
+            variables.enviroPosY += 0.4
             variables.charImage = variables.runImage
             variables.sheetNum = 128
         elif(variables.goingDown == True):
-            variables.yPos += 0.4
+            variables.enviroPosY -= 0.4
             variables.charImage = variables.runImage
             variables.sheetNum = 0
         elif(variables.goingRight == True):
-            variables.xPos += 0.4
+            variables.enviroPosX -= 0.4
             variables.charImage = variables.runImage
             variables.sheetNum = 256
         elif(variables.goingLeft == True):
-            variables.xPos -= 0.4
+            variables.enviroPosX += 0.4
             variables.charImage = variables.runImage
             variables.sheetNum = 384
         else:
@@ -56,7 +75,7 @@ def main():
             elif ev.key == pygame.K_d:
                 variables.goingRight = False; variables.animateNum = 0
             elif ev.key == pygame.K_a:
-                variables.goingLeft = False; 
+                variables.goingLeft = False; variables.animateNum = 0
             
         if variables.gameState == "menu": # menu state
             menu.menu()
@@ -64,7 +83,11 @@ def main():
                 variables.gameState = "game"
         pygame.display.flip()
         if variables.gameState == "game":
-            game.game()
+            variables.screen.fill((0, 0, 0))
+            ground = pygame.draw.rect(variables.screen, (35, 99, 52), pygame.Rect(variables.enviroPosX, variables.enviroPosY, 8000, 3125))
+            for Tree in trees:
+                Tree.draw(variables.screen)
+                Tree.update()
             variables.screen.blit(variables.charImage, (variables.screenX/2 - 96, variables.screenY/2 - 96), (variables.animateNum, variables.sheetNum, 128, 128)) # 32 is the sprite size
             if(variables.timer % 100 == 0):
                 if((variables.goingUp == False) and (variables.goingDown == False) and (variables.goingRight == False) and (variables.goingLeft == False)):
@@ -82,6 +105,7 @@ def main():
                     else:
                         variables.animateNum = 0
         variables.timer+= 1 # tick the timer
+        print(variables.enviroPosX, variables.enviroPosY)
 
         pygame.display.flip()
     pygame.quit()

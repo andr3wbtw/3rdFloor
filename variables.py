@@ -32,6 +32,9 @@ playerRect = (128, 128)
 xPos = 100
 yPos = 100
 
+enviroPosX = 0
+enviroPosY = 0
+
 goingUp = False
 goingDown = False
 goingRight = False
