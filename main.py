@@ -26,10 +26,16 @@ class Tree(pygame.sprite.Sprite):
         self.rect.y = variables.enviroPosY+self.awayY
 
 def generateTrees():
-    for i in range(0, 100, 1):
-        randX = random.randint(0,3000)
-        randY = random.randint(0,2000)
-        trees.append(Tree(randX, randY, 'images/Tree.png'))
+    for i in range(0, 50, 1):
+        randX = random.randint(0,2900)
+        randY = random.randint(0,1800)
+        randTree = random.randint(1,3)
+        if(randTree == 1):
+            trees.append(Tree(randX, randY, 'images/Tree.png'))
+        elif(randTree == 2):
+            trees.append(Tree(randX, randY, 'images/Tree2.png'))
+        elif(randTree == 3):
+            trees.append(Tree(randX, randY, 'images/Tree3.png'))
 
 def main():
     ### MAIN GAME LOOP ###
@@ -42,19 +48,19 @@ def main():
         variables.mouseX = variables.mouse[0]
         variables.mouseY = variables.mouse[1]
 
-        if(variables.goingUp == True):
+        if((variables.goingUp == True) and (variables.enviroPosY < 345)):
             variables.enviroPosY += 0.6
             variables.charImage = variables.runImage
             variables.sheetNum = 128
-        elif(variables.goingDown == True):
+        elif((variables.goingDown == True) and (variables.enviroPosY > -1625)):
             variables.enviroPosY -= 0.6
             variables.charImage = variables.runImage
             variables.sheetNum = 0
-        elif(variables.goingRight == True):
+        elif((variables.goingRight == True) and (variables.enviroPosX > -2350)):
             variables.enviroPosX -= 0.6
             variables.charImage = variables.runImage
             variables.sheetNum = 256
-        elif(variables.goingLeft == True):
+        elif((variables.goingLeft == True) and (variables.enviroPosX < 570)):
             variables.enviroPosX += 0.6
             variables.charImage = variables.runImage
             variables.sheetNum = 384
@@ -71,7 +77,7 @@ def main():
                 variables.goingDown = True
             elif ev.key == pygame.K_d:
                 variables.goingRight = True
-            elif ev.key == pygame.K_a:
+            elif (ev.key == pygame.K_a) and (variables.enviroPosX < 570):
                 variables.goingLeft = True
         if ev.type == pygame.KEYUP:
             if ev.key == pygame.K_w:
