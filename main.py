@@ -102,6 +102,8 @@ def main():
             for Tree in trees:
                 Tree.draw(variables.screen)
                 Tree.update()
+            variables.darkScreen.set_alpha(160)
+            variables.lightScreen.blit(variables.lightImage, (variables.screenX/2 - 210, variables.screenY/2 - 200))
             if(variables.timer % 100 == 0):
                 if((variables.goingUp == False) and (variables.goingDown == False) and (variables.goingRight == False) and (variables.goingLeft == False)):
                     if(variables.animateNum == 0):
